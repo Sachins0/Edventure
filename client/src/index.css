@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme{
+    --color-richblack-900: #000814;
+    --color-richblack-800: #161D29;
+    --color-richblack-200: #999DAA;
+    --color-richblack-300: #838894;
+    --color-richblack-400: #6E727F;
+    --color-richblack-700: #2C333F;
+    --color-richblack-100: #AFB2BF;
+    --color-richblack-500: "#585D69";
+    --color-richblack-600: "#424854";
+    --color-richblack-5: #F1F2FF;
+    --color-richblack-25: #DBDDEA;
+    --color-richblack-50: #C5C7D4;
+    --color-pure-greys-5: #F9F9F9;
+    --color-caribbeangreen-300: #05A77B;
+    --color-caribbeangreen-700: #014A32;
+    --font-inter: 'Inter', 'sans-serif';
+    --font-mono: "Roboto Mono", "monospace";
+}
+
+.blackButton {
+  @apply cursor-pointer rounded-md bg-richblack-800 px-[20px] py-[8px] font-semibold text-richblack-5;
+}
+.lable-style {
+  @apply text-[14px] text-richblack-5;
+}
+.form-style {
+  @apply rounded-lg bg-richblack-700 p-3 text-[16px] leading-[24px] text-richblack-5 shadow-[0_1px_0_0] shadow-white/50 placeholder:text-richblack-400 focus:outline-none;
+}
+.section_heading {
+  @apply text-2xl font-bold text-richblack-5 lg:text-4xl;
+}
