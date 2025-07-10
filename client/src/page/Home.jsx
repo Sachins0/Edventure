@@ -8,9 +8,9 @@ import CodeBlocks from '../components/core/homePage/CodeBlocks'
 import TimelineSection from '../components/core/homePage/TimelineSection'
 import LearningLanguageSection from '../components/core/homePage/LearningLanguageSection'
 import InstructorSection from '../components/core/homePage/InstructorSection'
-import ReviewSlider from '../components/core/homePage/ReviewSlider'
 import Footer from '../components/common/Footer'
 import ExploreMore from '../components/core/homePage/ExploreMore'
+import ReviewSlider from '../components/common/ReviewSlider'
 
 const Home = () => {
   return (
