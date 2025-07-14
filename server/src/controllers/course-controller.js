@@ -1,12 +1,14 @@
 const { StatusCodes } = require("http-status-codes");
 const Course = require("../models/Course");
 const { SuccessResponse, ErrorResponse, uploadImageToCloudinary } = require("../utils/common");
+const { convertSecondsToDuration } = require("../utils/common/secToDuration");
 const { ServerConfig } = require("../config");
 const User = require("../models/User");
 const Category = require("../models/Category");
 const CourseProgress = require("../models/CourseProgress");
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
+const { get } = require("mongoose");
 
 
 //create
@@ -187,66 +189,123 @@ const showAllCourses = async (req, res) => {
 //get CourseDetails
 const getCourseDetails = async(req, res) => {
     try {
-        //get id
-        const {courseId} = req.body;
-        const userId = req.user.id
-        //find course details
-        const courseDetails = await Course.findOne(
-            {_id : courseId},
-        )
-        .populate({
-            path : 'instructor',
-            populate : {
-                path : 'profile'
-            }
-        })
-        .populate('ratingAndReviews')
-        .populate('category')
-        .populate({
-            path : 'courseContent',
-            populate : {
-                path : 'subSection'
-            }
-        }).exec();
+    const { courseId } = req.body
+    const courseDetails = await Course.findOne({
+      _id: courseId,
+    })
+      .populate({
+        path: "instructor",
+        populate: {
+          path: "profile",
+        },
+      })
+      .populate("category")
+      .populate("ratingAndReviews")
+      .populate({
+        path: "courseContent",
+        populate: {
+          path: "subSection",
+          select: "-videoUrl",
+        },
+      })
+      .exec()
 
-        let courseProgressCount = await CourseProgress.findOne({
-            courseID: courseId,
-            userId: userId,
-        })
-        //validation
-        if(!courseDetails){
-            ErrorResponse.message = `Could not find course with ${courseId}`;
-            return res
-                    .status(StatusCodes.BAD_REQUEST)
-                    .json(ErrorResponse)
-        }
-
-        let totalDurationInSeconds = 0
-        courseDetails.courseContent.forEach((content) => {
-          content.subSection.forEach((subSection) => {
-            const timeDurationInSeconds = parseInt(subSection.timeDuration)
-            totalDurationInSeconds += timeDurationInSeconds
-          })
-        })
-    
-        const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
-        //return res
-        SuccessResponse.data = {courseDetails, totalDuration, 
-            completedVideos: courseProgressCount?.completedVideos
-            ? courseProgressCount?.completedVideos
-            : []};
-        SuccessResponse.message = 'Course Details is fetched successfully';
-        return res
-                .status(StatusCodes.OK)
-                .json(SuccessResponse);
-    } catch (error) {
-        ErrorResponse.error = error;
-        ErrorResponse.message = ErrorResponse.message || 'Error occurred while fetching course details';
-        return res
-                .status(error.StatusCodes || StatusCodes.INTERNAL_SERVER_ERROR)
-                .json(ErrorResponse);
+    if (!courseDetails) {
+      return res.status(400).json({
+        success: false,
+        message: `Could not find course with id: ${courseId}`,
+      })
     }
+
+    let totalDurationInSeconds = 0
+    courseDetails.courseContent.forEach((content) => {
+      content.subSection.forEach((subSection) => {
+        const timeDurationInSeconds = parseInt(subSection.timeDuration)
+        totalDurationInSeconds += timeDurationInSeconds
+      })
+    })
+
+    const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        courseDetails,
+        totalDuration,
+      },
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    })
+  }
 };
+
+const getFullCourseDetails = async (req, res) => {
+  try {
+    const { courseId } = req.body
+    const userId = req.user.id
+    const courseDetails = await Course.findOne({
+      _id: courseId,
+    })
+      .populate({
+        path: "instructor",
+        populate: {
+          path: "profile",
+        },
+      })
+      .populate("category")
+      .populate("ratingAndReviews")
+      .populate({
+        path: "courseContent",
+        populate: {
+          path: "subSection",
+        },
+      })
+      .exec()
+
+    let courseProgressCount = await CourseProgress.findOne({
+      courseID: courseId,
+      userId: userId,
+    })
+
+    console.log("courseProgressCount : ", courseProgressCount)
+
+    if (!courseDetails) {
+      return res.status(400).json({
+        success: false,
+        message: `Could not find course with id: ${courseId}`,
+      })
+    }
+
+    let totalDurationInSeconds = 0
+    courseDetails.courseContent.forEach((content) => {
+      content.subSection.forEach((subSection) => {
+        const timeDurationInSeconds = parseInt(subSection.timeDuration)
+        totalDurationInSeconds += timeDurationInSeconds
+      })
+    })
+
+    const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        courseDetails,
+        totalDuration,
+        completedVideos: courseProgressCount?.completedVideos
+          ? courseProgressCount?.completedVideos
+          : [],
+      },
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    })
+}
+}
 
 // Get a list of Course for a given Instructor
 const getInstructorCourses = async (req, res) => {
@@ -333,6 +392,7 @@ module.exports = {
     createCourse,
     showAllCourses,
     getCourseDetails,
+    getFullCourseDetails,
     editCourse,
     getInstructorCourses,
     deleteCourse

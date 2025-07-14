@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const Profile = require('../models/Profile');
 const jwt = require('jsonwebtoken');
 const {ServerConfig} = require('../config');
+const { passwordUpdated } = require('../mail/templates/passwordUpdate');
 
 
 //sendOTP
@@ -125,6 +126,7 @@ const signUp = async (req,res) => {
                 .json(SuccessResponse);
     
     } catch (error) {
+        console.log("error in signUp:", error);
         ErrorResponse.error = error;
         ErrorResponse.message = ErrorResponse.message || 'User cannot be registered. Please try again.';
         return res
@@ -201,9 +203,9 @@ const changePassword = async (req, res) => {
         // Get user data from req.user
         const userDetails = await User.findById(req.user.id)
         //data -> req.body
-        const {oldPassword, newPassword, confirmNewPassword} = req.body;
+        const {oldPassword, newPassword} = req.body;
         //validate
-        if(!oldPassword || !newPassword || !confirmNewPassword){
+        if(!oldPassword || !newPassword){
             ErrorResponse.message = 'All fields are required';
             return res
                     .status(StatusCodes.BAD_REQUEST)
@@ -213,12 +215,6 @@ const changePassword = async (req, res) => {
         const isPasswordMatch = await bcrypt.compare(oldPassword, userDetails.password)
         if(!isPasswordMatch){
             ErrorResponse.message = 'Old password is incorrect';
-            return res
-                    .status(StatusCodes.BAD_REQUEST)
-                    .json(ErrorResponse)
-        }
-        if(newPassword !== confirmNewPassword){
-            ErrorResponse.message = 'Password and confirmPassword does not match';
             return res
                     .status(StatusCodes.BAD_REQUEST)
                     .json(ErrorResponse)
@@ -255,6 +251,7 @@ const changePassword = async (req, res) => {
                 .status(StatusCodes.OK)
                 .json(SuccessResponse);
     } catch (error) {
+        console.log('error in changePassword:', error);
         ErrorResponse.error = error;
         ErrorResponse.message = ErrorResponse.message || 'Error occurred while updating password';
         return res

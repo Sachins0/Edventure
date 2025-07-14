@@ -27,6 +27,8 @@ const EditProfile = () => {
       console.log("ERROR MESSAGE - ", error.message)
     }
   }
+
+  console.log("user in EditProfile - ", user);
   return (
     <>
     <form onSubmit={handleSubmit(submitProfileForm)}>
@@ -76,15 +78,15 @@ const EditProfile = () => {
         </div>
         <div className="flex flex-col gap-5 lg:flex-row">
           <div className="flex flex-col gap-2 lg:w-[48%]">
-              <label htmlFor="dateOfBirth" className="lable-style">
+              <label htmlFor="dob" className="lable-style">
                 Date of Birth
               </label>
               <input
                 type="date"
-                name="dateOfBirth"
-                id="dateOfBirth"
+                name="dob"
+                id="dob"
                 className="form-style"
-                {...register("dateOfBirth", {
+                {...register("dob", {
                   required: {
                     value: true,
                     message: "Please enter your Date of Birth.",
@@ -94,11 +96,11 @@ const EditProfile = () => {
                     message: "Date of Birth cannot be in the future.",
                   },
                 })}
-                defaultValue={user?.profile?.dateOfBirth}
+                defaultValue={user?.profile?.dob}
               />
-              {errors.dateOfBirth && (
+              {errors.dob && (
                 <span className="-mt-1 text-[12px] text-yellow-400">
-                  {errors.dateOfBirth.message}
+                  {errors.dob.message}
                 </span>
               )}
           </div>
@@ -123,8 +125,8 @@ const EditProfile = () => {
                 })}
               </select>
               {errors.gender && (
-                <span className="-mt-1 text-[12px] text-yellow-100">
-                  Please enter your Date of Birth.
+                <span className="-mt-1 text-[12px] text-yellow-400">
+                  Please enter your gender.
                 </span>
               )}
             </div>

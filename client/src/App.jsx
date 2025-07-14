@@ -21,6 +21,13 @@ import { ACCOUNT_TYPE } from './utils/constants'
 import Cart from './components/core/dashboard/cart'
 import EnrolledCourses from './components/core/dashboard/EnrolledCourses'
 import CourseDetails from './page/CourseDetails'
+import ViewCourse from './page/ViewCourse'
+import Error from './page/Error'
+import VideoDetails from './components/core/viewCourse/VideoDetails'
+import Instructor from './components/core/dashboard/instructorDashboard/Instructor'
+import EditCourse from './components/core/dashboard/editCourse'
+import AddCourse from './components/core/dashboard/addCourse'
+import MyCourses from './components/core/dashboard/MyCourses'
 
 function App() {
 
@@ -96,7 +103,40 @@ function App() {
           </>
         )
       }
+
+      {
+        user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
+          <>
+          <Route path="dashboard/instructor" element={<Instructor />} />
+          <Route path="dashboard/add-course" element={<AddCourse />} />
+          <Route path="dashboard/my-courses" element={<MyCourses />} />
+          <Route path="dashboard/edit-course/:courseId" element={<EditCourse />} />
+          
+          </>
+        )
+      }
         </Route>
+
+      <Route element={
+        <PrivateRoute>
+          <ViewCourse />
+        </PrivateRoute>
+      }>
+        {
+        user?.accountType === ACCOUNT_TYPE.STUDENT && (
+          <>
+          <Route 
+            path="view-course/:courseId/section/:sectionId/sub-section/:subSectionId"
+            element={<VideoDetails />}
+          />
+          </>
+        )
+      }
+
+      </Route>
+
+      <Route path="*" element={<Error />} />
+
       </Routes>
     </div>
   )

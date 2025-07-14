@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { getUserEnrolledCourses } from '../../../services/operations/profileApi'
+import ProgressBar from "@ramonak/react-progress-bar"
 
 const EnrolledCourses = () => {
     const { token } = useSelector((state) => state.auth)

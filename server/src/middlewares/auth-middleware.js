@@ -10,7 +10,7 @@ const auth = async (req, res, next) => {
      //extract token
      const token = req.cookies.token
                      || req.body.token
-                     || req.header('Authorization').replace('Bearer', '');
+                     || req.header('Authorization').replace('Bearer ','');
  
      if(!token){
          ErrorResponse.message = 'Token is missing';
@@ -20,19 +20,22 @@ const auth = async (req, res, next) => {
      };
      //verify token
      try {
-         const decode = jwt.verify(token, ServerConfig.jwtSecret);
-         console.log(decode);
+        console.log("secret", ServerConfig.jwtSecret);
+         const decode = await jwt.verify(token, ServerConfig.jwtSecret);
+         console.log("decode", decode);
          req.user = decode;
      } catch (error) {
+        console.log("error occured while verify token", error);
          ErrorResponse.error = error;
-         ErrorResponse.message = 'Token is invalid';
+         ErrorResponse.message = 'Error occurred while verifying token';
          return res
-                 .status(error.StatusCodes)
+                 .status(error.StatusCodes || StatusCodes.INTERNAL_SERVER_ERROR)
                  .json(ErrorResponse);
      }
      next();
 
    } catch (error) {
+    console.log("error in auth midd", error);
     ErrorResponse.error = error;
     ErrorResponse.message = ErrorResponse.message || 'Error occurred while authorizing user';
     return res
@@ -45,6 +48,7 @@ const auth = async (req, res, next) => {
 const isStudent = async (req, res, next) => {
     try {
         const userDetails = await User.findOne({ email: req.user.email });
+        console.log("userDetails", userDetails);
         if(userDetails.accountType !== 'Student'){
             ErrorResponse.message = 'Route is protected for Students only';
              return res
@@ -55,6 +59,7 @@ const isStudent = async (req, res, next) => {
         next();
 
     } catch (error) {
+        console.log("error in isStudent middleware", error);
         ErrorResponse.error = error;
         ErrorResponse.message = ErrorResponse.message || 'User role cannot be verified';
         return res

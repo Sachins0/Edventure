@@ -64,16 +64,16 @@ const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) =>
             <button
               className="yellowButton"
               onClick={
-                user && course?.studentsEnrolled.includes(user?._id)
+                user && course?.studentEnrolled.includes(user?._id)
                   ? () => navigate("/dashboard/enrolled-courses")
                   : handleBuyCourse
               }
             >
-              {user && course?.studentsEnrolled.includes(user?._id)
+              {user && course?.studentEnrolled.includes(user?._id)
                 ? "Go To Course"
                 : "Buy Now"}
             </button>
-            {(!user || !course?.studentsEnrolled.includes(user?._id)) && (
+            {(!user || !course?.studentEnrolled.includes(user?._id)) && (
               <button onClick={handleAddToCart} className="blackButton">
                 Add to Cart
               </button>

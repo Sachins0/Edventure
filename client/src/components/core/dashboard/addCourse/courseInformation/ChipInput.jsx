@@ -1,5 +1,5 @@
 // Importing React hook for managing component state
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 // Importing React icon component
 import { MdClose } from "react-icons/md"
 import { useSelector } from "react-redux"

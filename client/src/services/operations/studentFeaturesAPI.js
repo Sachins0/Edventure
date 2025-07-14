@@ -48,10 +48,10 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
         console.log("PRINTING orderResponse", orderResponse);
         //options
         const options = {
-            key: process.env.RAZORPAY_KEY,
-            currency: orderResponse.data.message.currency,
-            amount: `${orderResponse.data.message.amount}`,
-            order_id:orderResponse.data.message.id,
+            key: import.meta.env.VITE_RAZORPAY_KEY,
+            currency: orderResponse.data.data.currency,
+            amount: `${orderResponse.data.data.amount}`,
+            order_id:orderResponse.data.data.id,
             name:"StudyNotion",
             description: "Thank You for Purchasing the Course",
             image:rzpLogo,
@@ -60,9 +60,12 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
                 email:userDetails.email
             },
             handler: function(response) {
+                console.log("rajorpay response", response);
                 //send successful wala mail
                 sendPaymentSuccessEmail(response, orderResponse.data.message.amount,token );
                 //verifyPayment
+                console.log("Verifying with data:", { ...response, courses });
+
                 verifyPayment({...response, courses}, token, navigate, dispatch);
             }
         }

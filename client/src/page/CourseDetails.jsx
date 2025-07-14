@@ -12,6 +12,8 @@ import Footer from '../components/common/Footer'
 import RatingStars from "../components/common/RatingStars"
 import Error from './Error'
 import { buyCourse } from '../services/operations/studentFeaturesAPI'
+import CourseAccordionBar from '../components/core/course/CourseAccordionBar'
+import ConfirmationModal from "../components/common/ConfirmationModal"
 
 const CourseDetails = () => {
     const { user } = useSelector((state) => state.profile)
@@ -57,6 +59,8 @@ const CourseDetails = () => {
     })
     setTotalNoOfLectures(lectures)
   }, [response])
+
+  console.log(response?.data);
 
   if (loading || !response) {
     return (
@@ -126,7 +130,7 @@ const CourseDetails = () => {
                         <span className="text-yellow-300">{avgReviewCount}</span>
                         <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
                         <span>{`(${ratingAndReviews.length} reviews)`}</span>
-                        <span>{`${studentsEnrolled.length} students enrolled`}</span>
+                        <span>{`${studentsEnrolled?.length} students enrolled`}</span>
                     </div>
                     <div>
                         <p className="">
@@ -226,7 +230,7 @@ const CourseDetails = () => {
         </div>
     </div>
     <Footer />
-      {confirmationModal && <confirmationModal modalData={confirmationModal} />}
+      {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
     </>
   )
 }

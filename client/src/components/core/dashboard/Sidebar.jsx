@@ -5,6 +5,7 @@ import {sidebarLinks} from '../../../data/dashboard-links'
 import { logout } from '../../../services/operations/authAPI'
 import { VscSignOut } from 'react-icons/vsc'
 import SidebarLink from './SidebarLink'
+import ConfirmationModal from '../../common/ConfirmationModal'
 
 const Sidebar = () => {
     const { user, loading: profileLoading } = useSelector(

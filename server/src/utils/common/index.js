@@ -4,5 +4,4 @@ module.exports={
     SuccessResponse: require('./success-response'),
     mailSender : require('./mailSender'),
     uploadImageToCloudinary : require('./imageUploader'),
-    convertSecondsToDuration : require('./secToDuration'),
 }

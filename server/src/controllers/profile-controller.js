@@ -1,17 +1,26 @@
 const { StatusCodes } = require("http-status-codes");
 const Profile = require("../models/Profile");
-const { SuccessResponse, ErrorResponse, uploadImageToCloudinary, convertSecondsToDuration } = require("../utils/common");
+const { SuccessResponse, ErrorResponse, uploadImageToCloudinary} = require("../utils/common");
 const User = require("../models/User");
 const { default: mongoose } = require("mongoose");
 const Course = require("../models/Course");
 const CourseProgress = require("../models/CourseProgress");
 const serverConfig = require("../config/server-config");
+const { convertSecondsToDuration } = require("../utils/common/secToDuration");
 
 
 const updateProfile = async(req, res) => {
     try {
+        console.log("updateProfile called", req.body);
         //fetch data
-        const {gender, dob, about, contactNumber} = req.body;
+        const {
+          firstName = "",
+          lastName = "",
+          dob = "",
+          about = "",
+          contactNumber = "",
+          gender = "",
+        } = req.body
         const id = req.user.id;
         //validation
         //find profileId
@@ -19,6 +28,11 @@ const updateProfile = async(req, res) => {
         const profileId = user.profile;
         //update 
         await Profile.findByIdAndUpdate(profileId, {gender, dob, about, contactNumber}, {new : true});
+        const updatedUser = await User.findByIdAndUpdate(id, {
+          firstName,
+          lastName,
+        })
+        await updatedUser.save()
 
         /*{
         another method to update
@@ -40,6 +54,7 @@ const updateProfile = async(req, res) => {
                 .status(StatusCodes.CREATED)
                 .json(SuccessResponse);
     } catch (error) {
+      console.log('Error in updateProfile:', error);
         ErrorResponse.error = error;
         ErrorResponse.message = ErrorResponse.message || 'Error occurred while updating profile';
         return res
@@ -200,6 +215,7 @@ const getEnrolledCourses = async (req, res) => {
                 .status(StatusCodes.OK)
                 .json(SuccessResponse);
     } catch (error) {
+        console.log("Error in getEnrolledCourses:", error);
         ErrorResponse.error = error;
         ErrorResponse.message = ErrorResponse.message || 'Error occurred while fetching enrolled courses';
         return res

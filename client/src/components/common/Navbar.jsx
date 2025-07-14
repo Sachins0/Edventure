@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, matchPath, useLocation } from 'react-router-dom'
-import logo from "../../assets/Logo/Logo-Full-Light.png"
+import logo from "../../assets/Logo/logo1.png"
 import {NavbarLinks} from '../../data/navbar-links';
 import { BsChevronDown } from "react-icons/bs"
 import { useSelector } from 'react-redux';

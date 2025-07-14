@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import { IoAddCircleOutline } from "react-icons/io5"
@@ -79,6 +79,8 @@ export default function CourseBuilderForm() {
     setEditSectionName(sectionId)
     setValue("sectionName", sectionName)
   }
+
+  console.log("course in CourseBuilderForm", course);
 
   const goToNext = () => {
     if (course.courseContent.length === 0) {
