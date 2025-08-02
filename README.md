@@ -1,5 +1,7 @@
 # [Edventure: An Ed-Tech Platform](https://edventure-client.vercel.app/)
 
+[Project Description](https://docs.google.com/document/d/15NK_rge-MgKoMpZ66oODDJHOWl577_MI4QV1UdHPcc0/edit?usp=sharing)
+
 Edventure is a full-featured ed-tech platform that enables users to **create, consume, and rate educational content**. The platform is built using the **MERN stack** (MongoDB, ExpressJS, ReactJS, NodeJS) and aims to make learning **engaging, accessible, and interactive** for students while providing instructors with powerful tools to connect and share their expertise.
 
 ## 🚀 Features
@@ -32,6 +34,15 @@ Edventure is a full-featured ed-tech platform that enables users to **create, co
 | Auth        | JWT, Bcrypt                                  |
 | Media Mgt   | Cloudinary                                   |
 | Deployment  | Vercel (frontend), Render/Railway (backend), MongoDB Atlas |
+
+## 👷🏻‍♀️ Architecture Diagram
+- Here is a high-level diagram that illustrates the architecture of the Edventure ed-tech platform:
+  ![alt text](client\src\assets\Images\hld.png)
+
+## 🗐 [Data Models and Database Schema](https://app.eraser.io/workspace/1s64UdKJwi9Zr4Kxx9oN?origin=share):
+  ![alt text](client\src\assets\Images\model.png)
+
+
 
 ## 🏗️ System Architecture
 
