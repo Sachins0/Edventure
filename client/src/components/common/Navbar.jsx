@@ -9,6 +9,7 @@ import { AiOutlineMenu, AiOutlineShoppingCart } from 'react-icons/ai';
 import ProfileDropDown from '../core/auth/ProfileDropDown';
 import { apiConnector } from '../../services/apiconnector';
 import { categories } from '../../services/apis';
+import toast from 'react-hot-toast';
 
 const Navbar = () => {
 
@@ -27,15 +28,11 @@ const Navbar = () => {
                 const res = await apiConnector("GET", categories.CATEGORIES_API)
                 setSubLinks(res.data.data)
             } catch (error) {
-                console.log("Could not fetch Categories.", error)
+                toast.error(error)
             }
             setLoading(false)
         })()
     }, [])
-
-    console.log(subLinks);
-    const course = subLinks?.map((item) => item.name)
-    console.log(course);
 
     const matchRoute = (route) => {
         return matchPath({ path: route }, location.pathname)

@@ -1,7 +1,7 @@
 import { toast } from "react-hot-toast";
 import { studentEndpoints } from "../apis";
 import { apiConnector } from "../apiconnector";
-import rzpLogo from "../../assets/Logo/rzp_logo.png"
+import rzpLogo from "../../assets/Logo/rzpLogo.png"
 import { setPaymentLoading } from "../../slices/courseSlice";
 import { resetCart } from "../../slices/cartSlice";
 
@@ -45,14 +45,13 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
         if(!orderResponse.data.success) {
             throw new Error(orderResponse.data.message);
         }
-        console.log("PRINTING orderResponse", orderResponse);
         //options
         const options = {
             key: import.meta.env.VITE_RAZORPAY_KEY,
             currency: orderResponse.data.data.currency,
             amount: `${orderResponse.data.data.amount}`,
             order_id:orderResponse.data.data.id,
-            name:"StudyNotion",
+            name:"Edventure",
             description: "Thank You for Purchasing the Course",
             image:rzpLogo,
             prefill: {
@@ -60,27 +59,22 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
                 email:userDetails.email
             },
             handler: function(response) {
-                console.log("rajorpay response", response);
                 //send successful wala mail
-                sendPaymentSuccessEmail(response, orderResponse.data.message.amount,token );
+                sendPaymentSuccessEmail(response, orderResponse.data.data.amount,token );
                 //verifyPayment
-                console.log("Verifying with data:", { ...response, courses });
 
                 verifyPayment({...response, courses}, token, navigate, dispatch);
             }
         }
-        //miss hogya tha 
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
         paymentObject.on("payment.failed", function(response) {
             toast.error("oops, payment failed");
-            console.log(response.error);
         })
 
     }
     catch(error) {
-        console.log("PAYMENT API ERROR.....", error);
-        toast.error("Could not make Payment");
+        toast.error(error.response.data.message);
     }
     toast.dismiss(toastId);
 }
@@ -96,7 +90,7 @@ async function sendPaymentSuccessEmail(response, amount, token) {
         })
     }
     catch(error) {
-        console.log("PAYMENT SUCCESS EMAIL ERROR....", error);
+        toast.error("Failed to send payment success email", error);
     }
 }
 
@@ -112,13 +106,12 @@ async function verifyPayment(bodyData, token, navigate, dispatch) {
         if(!response.data.success) {
             throw new Error(response.data.message);
         }
-        toast.success("payment Successful, ypou are addded to the course");
+        toast.success("payment Successful, you are addded to the course");
         navigate("/dashboard/enrolled-courses");
         dispatch(resetCart());
     }   
     catch(error) {
-        console.log("PAYMENT VERIFY ERROR....", error);
-        toast.error("Could not verify Payment");
+        toast.error(error.response.data.message);
     }
     toast.dismiss(toastId);
     dispatch(setPaymentLoading(false));

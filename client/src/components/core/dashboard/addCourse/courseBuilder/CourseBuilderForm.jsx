@@ -33,7 +33,6 @@ export default function CourseBuilderForm() {
 
   // handle form submission
   const onSubmit = async (data) => {
-    // console.log(data)
     setLoading(true)
 
     let result
@@ -47,7 +46,6 @@ export default function CourseBuilderForm() {
         },
         token
       )
-      // console.log("edit", result)
     } else {
       result = await createSection(
         {
@@ -79,8 +77,6 @@ export default function CourseBuilderForm() {
     setEditSectionName(sectionId)
     setValue("sectionName", sectionName)
   }
-
-  console.log("course in CourseBuilderForm", course);
 
   const goToNext = () => {
     if (course.courseContent.length === 0) {

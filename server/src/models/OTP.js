@@ -23,7 +23,6 @@ async function sendVerificationEmail(email, otp) {
     try {
         const mailResponse = await mailSender(email, 'Verification email from Edventure', emailVerificationTemplate(otp));
     } catch (error) {
-        console.log('error while sending email', error);
         throw error;
     }
 };

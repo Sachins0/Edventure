@@ -47,7 +47,6 @@ const capturePayment = async(req, res) => {
             // Add the price of the course to the total amount
             total_amount += course.price
         } catch (error) {
-            console.log('something went wrong while fetching course details for payment', error);
             ErrorResponse.error = error;
             ErrorResponse.message = ErrorResponse.message || 'Error occurred while fetching course details for payment';
             return res
@@ -63,7 +62,6 @@ const capturePayment = async(req, res) => {
     try {
         //initiate payment using razorpay
         const paymentResponse = await instance.orders.create(options);
-        console.log(paymentResponse);
         //return res
         SuccessResponse.data = paymentResponse;
         SuccessResponse.message = 'Payment initiated successfully';
@@ -71,7 +69,6 @@ const capturePayment = async(req, res) => {
                 .status(StatusCodes.OK)
                 .json(SuccessResponse);
     } catch (error) {
-        console.log("error while initiating payment", error);
         ErrorResponse.error = error;
         ErrorResponse.message = ErrorResponse.message || 'Error occurred while initiating payment';
         return res
@@ -83,7 +80,6 @@ const capturePayment = async(req, res) => {
 //verify signature of razorpay and server
 // verify the payment
 const verifyPayment = async (req, res) => {
-    console.log("verifyPayment called", req.body);
     const razorpay_order_id = req.body?.razorpay_order_id
     const razorpay_payment_id = req.body?.razorpay_payment_id
     const razorpay_signature = req.body?.razorpay_signature
@@ -98,7 +94,6 @@ const verifyPayment = async (req, res) => {
       !courses ||
       !userId
     ) {
-        console.log('missing required fields');
         ErrorResponse.message = 'Payment failed';
         return res
                 .status(StatusCodes.BAD_REQUEST)
@@ -111,8 +106,6 @@ const verifyPayment = async (req, res) => {
       .createHmac("sha256", serverConfig.razorpaySecret)
       .update(body.toString())
       .digest("hex")
-
-    console.log('verification');
   
     if (expectedSignature === razorpay_signature) {
       await enrollStudents(courses, userId, res)
@@ -123,7 +116,6 @@ const verifyPayment = async (req, res) => {
                 .json(SuccessResponse);
     }
 
-    console.log('payment verification failed');
   
     ErrorResponse.message = 'Payment failed';
     return res
@@ -158,7 +150,6 @@ const sendPaymentSuccessEmail = async (req, res) => {
         )
         )
     } catch (error) {
-        console.log("error while sending payment success email", error);
         ErrorResponse.error = error;
         ErrorResponse.message = ErrorResponse.message || 'Error occurred while sending payment success email';
         return res
@@ -185,15 +176,12 @@ const enrollStudents = async (courses, userId, res) => {
         if (!enrolledCourse) {
             throw new Error("Course not found");
         }
-        console.log("Updated course")
 
         const courseProgress = await CourseProgress.create({
             courseId: courseId,
             userId: userId,
             completedVideos: [],
         })
-
-        console.log('courseProgress created: ', courseProgress);
         // Find the student and add the course to their list of enrolled courses
         const enrolledStudent = await User.findByIdAndUpdate(
             userId,
@@ -205,8 +193,6 @@ const enrollStudents = async (courses, userId, res) => {
             },
             { new: true }
         )
-
-        console.log("Enrolled student: ", enrolledStudent)
         // Send an email notification to the enrolled student
         const emailResponse = await mailSender(
             enrolledStudent.email,
@@ -216,10 +202,7 @@ const enrollStudents = async (courses, userId, res) => {
             `${enrolledStudent.firstName} ${enrolledStudent.lastName}`
             )
         )
-
-        console.log("Email sent successfully: ", emailResponse.response)
         } catch (error) {
-            console.log("error while enrolling student", error);
             throw error;
         }
     }

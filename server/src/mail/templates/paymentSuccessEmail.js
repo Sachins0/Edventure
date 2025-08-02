@@ -67,8 +67,7 @@ const paymentSuccessEmail = (name, amount, orderId, paymentId) => {
       
       <body>
           <div class="container">
-              <a href=""><img class="logo" src=""
-                      alt="Edventure Logo"></a>
+              <a href="https://ibb.co/Kx9y0m50"><img src="https://i.ibb.co/5h5cM21M/rzpLogo.png" alt="Edventure logo" border="0" /></a>
               <div class="message">Course Payment Confirmation</div>
               <div class="body">
                   <p>Dear ${name},</p>
@@ -83,3 +82,5 @@ const paymentSuccessEmail = (name, amount, orderId, paymentId) => {
       
       </html>`
   }
+
+  module.exports = paymentSuccessEmail

@@ -4,7 +4,6 @@ const cloudinary = require('cloudinary').v2;
 
 const uploadImageToCloudinary = async (file, folder, height, quality) => {
     try {
-        console.log(file);
         const options = {folder};
         if(height){
             options.height = height;
@@ -16,7 +15,6 @@ const uploadImageToCloudinary = async (file, folder, height, quality) => {
     
         return await cloudinary.uploader.upload(file.tempFilePath, options);
     } catch (error) {
-        console.error('Error uploading image to Cloudinary:', error);
         ErrorResponse.message = 'Image upload failed';
     }
 }

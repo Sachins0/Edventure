@@ -44,6 +44,7 @@ const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) =>
     })
   }
 
+
   return (
     <>
       <div
@@ -69,7 +70,7 @@ const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) =>
                   : handleBuyCourse
               }
             >
-              {user && course?.studentEnrolled.includes(user?._id)
+              {user && course.studentEnrolled.includes(user._id)
                 ? "Go To Course"
                 : "Buy Now"}
             </button>

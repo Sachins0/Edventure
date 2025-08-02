@@ -14,6 +14,7 @@ import Error from './Error'
 import { buyCourse } from '../services/operations/studentFeaturesAPI'
 import CourseAccordionBar from '../components/core/course/CourseAccordionBar'
 import ConfirmationModal from "../components/common/ConfirmationModal"
+import toast from 'react-hot-toast'
 
 const CourseDetails = () => {
     const { user } = useSelector((state) => state.profile)
@@ -31,7 +32,7 @@ const CourseDetails = () => {
         const res = await fetchCourseDetails(courseId)
         setResponse(res)
       } catch (error) {
-        console.log("Could not fetch Course Details", error)
+        toast.error("Could not fetch Course Details", error)
       }
     })()
   }, [courseId])
@@ -39,7 +40,6 @@ const CourseDetails = () => {
   const [avgReviewCount, setAvgReviewCount] = useState(0)
   useEffect(() => {
     const count = GetAvgRating(response?.data?.courseDetails?.ratingAndReviews)
-    console.log("hi",response?.data?.courseDetails);
     setAvgReviewCount(count)
   }, [response])
   const [isActive, setIsActive] = useState(Array(0))
@@ -60,7 +60,6 @@ const CourseDetails = () => {
     setTotalNoOfLectures(lectures)
   }, [response])
 
-  console.log(response?.data);
 
   if (loading || !response) {
     return (
@@ -82,7 +81,7 @@ const CourseDetails = () => {
     courseContent,
     ratingAndReviews,
     instructor,
-    studentsEnrolled,
+    studentEnrolled,
     createdAt,
   } = response.data?.courseDetails
   const handleBuyCourse = () => {
@@ -129,8 +128,8 @@ const CourseDetails = () => {
                     <div className="text-md flex flex-wrap items-center gap-2">
                         <span className="text-yellow-300">{avgReviewCount}</span>
                         <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
-                        <span>{`(${ratingAndReviews.length} reviews)`}</span>
-                        <span>{`${studentsEnrolled?.length} students enrolled`}</span>
+                        <span>{`${ratingAndReviews.length} review(s)`}</span>
+                        <span>{`${studentEnrolled?.length} student(s) enrolled`}</span>
                     </div>
                     <div>
                         <p className="">

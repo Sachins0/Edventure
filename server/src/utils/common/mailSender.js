@@ -19,7 +19,7 @@ const mailSender = async (email, title, body) => {
         });
         return info;
     } catch (error) {
-        console.log("error at mailsender",error.message);
+        throw new Error(`Mail sending failed: ${error.message}`);
     }
 };
 

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { changePassword } from '../../../../services/operations/settingsApi'
 import IconBtn from "../../../common/IconBtn"
+import toast from 'react-hot-toast'
 
 
 const UpdatePassword = () => {
@@ -25,7 +26,7 @@ const UpdatePassword = () => {
     try {
       await changePassword(token, data)
     } catch (error) {
-      console.log("ERROR MESSAGE - ", error.message)
+      toast.error(error.message)
     }
   }
   return (

@@ -3,6 +3,7 @@ import CountryCode from '../../../data/countrycode.json'
 import { useForm } from 'react-hook-form'
 import { apiConnector } from '../../../services/apiconnector'
 import { contactusEndpoint } from '../../../services/apis'
+import toast from 'react-hot-toast'
 
 const ContactUsForm = () => {
 
@@ -24,7 +25,7 @@ const ContactUsForm = () => {
       )
       setLoading(false)
     } catch (error) {
-      console.log("ERROR MESSAGE - ", error.message)
+      toast.error(error)
       setLoading(false)
     }
   }

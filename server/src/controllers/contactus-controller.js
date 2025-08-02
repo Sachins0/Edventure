@@ -1,7 +1,7 @@
 const { StatusCodes } = require("http-status-codes")
 const { contactFormConf } = require("../mail/templates")
 const mailSender = require("../utils/common")
-const { SuccessResponse } = require("../utils/common")
+const { SuccessResponse, ErrorResponse } = require("../utils/common")
 
 const contactUsController = async (req, res) => {
   const { email, firstname, lastname, message, phoneNo } = req.body

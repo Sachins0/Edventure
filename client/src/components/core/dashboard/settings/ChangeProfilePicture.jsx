@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import { FiUpload } from "react-icons/fi"
 import IconBtn from "../../../common/IconBtn"
 import { updateDisplayPicture } from '../../../../services/operations/settingsApi'
+import toast from 'react-hot-toast'
 
 const ChangeProfilePicture = () => {
   const { token } = useSelector((state) => state.auth)
@@ -38,7 +39,6 @@ const ChangeProfilePicture = () => {
 
   const handleFileUpload = () => {
     try {
-      console.log("uploading...")
       setLoading(true)
       const formData = new FormData()
       formData.append("displayPicture", imageFile)
@@ -47,7 +47,7 @@ const ChangeProfilePicture = () => {
         setLoading(false)
       })
     } catch (error) {
-      console.log("ERROR MESSAGE - ", error.message)
+      toast.error(error.message);
     }
   }
 

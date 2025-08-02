@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from "react-router-dom"
 import { updateProfile } from '../../../../services/operations/settingsApi';
 import IconBtn from '../../../common/IconBtn';
+import toast from 'react-hot-toast';
 
 const genders = ["Male", "Female", "Non-Binary", "Prefer not to say", "Other"];
 
@@ -24,11 +25,9 @@ const EditProfile = () => {
     try {
       dispatch(updateProfile(token, data))
     } catch (error) {
-      console.log("ERROR MESSAGE - ", error.message)
+      toast.error("ERROR MESSAGE - ", error.message)
     }
   }
-
-  console.log("user in EditProfile - ", user);
   return (
     <>
     <form onSubmit={handleSubmit(submitProfileForm)}>

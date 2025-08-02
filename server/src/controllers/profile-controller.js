@@ -11,7 +11,6 @@ const { convertSecondsToDuration } = require("../utils/common/secToDuration");
 
 const updateProfile = async(req, res) => {
     try {
-        console.log("updateProfile called", req.body);
         //fetch data
         const {
           firstName = "",
@@ -54,7 +53,6 @@ const updateProfile = async(req, res) => {
                 .status(StatusCodes.CREATED)
                 .json(SuccessResponse);
     } catch (error) {
-      console.log('Error in updateProfile:', error);
         ErrorResponse.error = error;
         ErrorResponse.message = ErrorResponse.message || 'Error occurred while updating profile';
         return res
@@ -111,7 +109,6 @@ const getAllUserDetails = async (req, res) => {
       const userDetails = await User.findById(id)
         .populate("profile")
         .exec()
-      console.log(userDetails)
       SuccessResponse.message = 'User data fetched successfully';
       SuccessResponse.data = userDetails;
         return res
@@ -187,7 +184,7 @@ const getEnrolledCourses = async (req, res) => {
             userDetails.courses[i].courseContent[j].subSection.length
         }
         let courseProgressCount = await CourseProgress.findOne({
-          courseID: userDetails.courses[i]._id,
+          courseId: userDetails.courses[i]._id,
           userId: userId,
         })
         courseProgressCount = courseProgressCount?.completedVideos.length
@@ -215,7 +212,6 @@ const getEnrolledCourses = async (req, res) => {
                 .status(StatusCodes.OK)
                 .json(SuccessResponse);
     } catch (error) {
-        console.log("Error in getEnrolledCourses:", error);
         ErrorResponse.error = error;
         ErrorResponse.message = ErrorResponse.message || 'Error occurred while fetching enrolled courses';
         return res

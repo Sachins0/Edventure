@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { getUserEnrolledCourses } from '../../../services/operations/profileApi'
 import ProgressBar from "@ramonak/react-progress-bar"
+import toast from 'react-hot-toast'
 
 const EnrolledCourses = () => {
     const { token } = useSelector((state) => state.auth)
@@ -15,7 +16,7 @@ const EnrolledCourses = () => {
 
         setEnrolledCourses(res);
         } catch (error) {
-        console.log("Could not fetch enrolled courses.")
+          toast.error(error);
         }
     };
     useEffect(() => {

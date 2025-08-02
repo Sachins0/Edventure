@@ -8,6 +8,7 @@ import Error from './Error'
 import CourseSlider from '../components/core/catalog/CourseSlider'
 import Course_Card from '../components/core/catalog/Course_Card'
 import Footer from '../components/common/Footer'
+import toast from 'react-hot-toast'
 
 const Catalog = () => {
 
@@ -34,7 +35,7 @@ const Catalog = () => {
                 setCatalogPageData(res);
             }
             catch(error) {
-                console.log(error)
+                toast.error(error)
             }
         }
         if(categoryId) {
@@ -54,7 +55,6 @@ const Catalog = () => {
         return <Error />
       }
 
-    console.log(catalogPageData);
 
   return (
     <>
@@ -110,7 +110,7 @@ const Catalog = () => {
         </div>
         <div className="py-8">
             <CourseSlider
-            Courses={catalogPageData?.data?.differentCategory?.courses}
+            Courses={catalogPageData?.data?.differentCategory?.course}
             />
         </div>
     </div>

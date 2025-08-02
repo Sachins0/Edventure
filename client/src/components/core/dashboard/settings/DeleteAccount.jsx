@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { FiTrash2 } from "react-icons/fi"
 import { deleteProfile } from '../../../../services/operations/settingsApi'
+import toast from 'react-hot-toast'
 
 const DeleteAccount = () => {
 
@@ -14,7 +15,7 @@ const DeleteAccount = () => {
     try {
       dispatch(deleteProfile(token, navigate))
     } catch (error) {
-      console.log("ERROR MESSAGE - ", error.message)
+      toast.error("ERROR MESSAGE - ", error.message)
     }
   }
   return (

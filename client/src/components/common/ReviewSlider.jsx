@@ -29,13 +29,11 @@ function ReviewSlider() {
     })()
   }, [])
 
-  // console.log(reviews)
-
   return (
     <div className="text-white">
       <div className="my-[50px] h-[184px] max-w-maxContentTab lg:max-w-maxContent">
         <Swiper
-          slidesPerView={4}
+          slidesPerView={3}
           spaceBetween={25}
           loop={true}
           freeMode={true}
@@ -44,7 +42,7 @@ function ReviewSlider() {
             disableOnInteraction: false,
           }}
           modules={[FreeMode, Pagination, Autoplay]}
-          className="w-full "
+          className="w-screen"
         >
           {reviews.map((review, i) => {
             return (
@@ -53,15 +51,15 @@ function ReviewSlider() {
                   <div className="flex items-center gap-4">
                     <img
                       src={
-                        review?.user?.image
-                          ? review?.user?.image
-                          : `https://api.dicebear.com/5.x/initials/svg?seed=${review?.user?.firstName} ${review?.user?.lastName}`
+                        review?.users?.image
+                          ? review?.users?.image
+                          : `https://api.dicebear.com/5.x/initials/svg?seed=${review?.users?.firstName} ${review?.users?.lastName}`
                       }
                       alt=""
                       className="h-9 w-9 rounded-full object-cover"
                     />
                     <div className="flex flex-col">
-                      <h1 className="font-semibold text-richblack-5">{`${review?.user?.firstName} ${review?.user?.lastName}`}</h1>
+                      <h1 className="font-semibold text-richblack-5">{`${review?.users?.firstName} ${review?.users?.lastName}`}</h1>
                       <h2 className="text-[12px] font-medium text-richblack-500">
                         {review?.course?.courseName}
                       </h2>

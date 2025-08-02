@@ -43,7 +43,6 @@ const resetPasswordToken = async (req, res) => {
                 .status(StatusCodes.OK)
                 .json(SuccessResponse);
     } catch (error) {
-        console.log("error", error);
         ErrorResponse.error = error;
         ErrorResponse.message = 'Error occurred while sending reset password email';
         return res

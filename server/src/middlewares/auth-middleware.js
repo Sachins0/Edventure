@@ -13,21 +13,18 @@ const auth = async (req, res, next) => {
                      || req.header('Authorization').replace('Bearer ','');
  
      if(!token){
-         ErrorResponse.message = 'Token is missing';
+         ErrorResponse.message = 'Token is missing. Please login again';
              return res
                      .status(StatusCodes.UNAUTHORIZED)
                      .json(ErrorResponse)
      };
      //verify token
      try {
-        console.log("secret", ServerConfig.jwtSecret);
          const decode = await jwt.verify(token, ServerConfig.jwtSecret);
-         console.log("decode", decode);
          req.user = decode;
      } catch (error) {
-        console.log("error occured while verify token", error);
          ErrorResponse.error = error;
-         ErrorResponse.message = 'Error occurred while verifying token';
+         ErrorResponse.message = 'Error occurred while verifying token. Please login again';
          return res
                  .status(error.StatusCodes || StatusCodes.INTERNAL_SERVER_ERROR)
                  .json(ErrorResponse);
@@ -35,9 +32,8 @@ const auth = async (req, res, next) => {
      next();
 
    } catch (error) {
-    console.log("error in auth midd", error);
     ErrorResponse.error = error;
-    ErrorResponse.message = ErrorResponse.message || 'Error occurred while authorizing user';
+    ErrorResponse.message = ErrorResponse.message || 'Error occurred while authorizing user. Please login again';
     return res
             .status(error.status || StatusCodes.INTERNAL_SERVER_ERROR)
             .json(ErrorResponse);
@@ -48,7 +44,6 @@ const auth = async (req, res, next) => {
 const isStudent = async (req, res, next) => {
     try {
         const userDetails = await User.findOne({ email: req.user.email });
-        console.log("userDetails", userDetails);
         if(userDetails.accountType !== 'Student'){
             ErrorResponse.message = 'Route is protected for Students only';
              return res
@@ -59,7 +54,6 @@ const isStudent = async (req, res, next) => {
         next();
 
     } catch (error) {
-        console.log("error in isStudent middleware", error);
         ErrorResponse.error = error;
         ErrorResponse.message = ErrorResponse.message || 'User role cannot be verified';
         return res

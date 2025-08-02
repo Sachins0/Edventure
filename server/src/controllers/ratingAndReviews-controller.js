@@ -8,10 +8,8 @@ const { default: mongoose } = require("mongoose");
 //createRating
 const createRating = async(req, res) => {
     try {
-        console.log("createRating called", req.user);
         //get userID
         const userId = req.user.id;
-        console.log(userId);
         //data -> req.body
         const {rating, review, courseId} = req.body;
         //check is user enrolled
@@ -32,7 +30,7 @@ const createRating = async(req, res) => {
             course : courseId
         });
         if(alreadyReviewed){
-            ErrorResponse.message = 'Student is already reviewed the course';
+            ErrorResponse.message = 'Student has already reviewed the course';
             return res
                     .status(StatusCodes.BAD_REQUEST)
                     .json(ErrorResponse)
@@ -58,7 +56,6 @@ const createRating = async(req, res) => {
                 .status(StatusCodes.CREATED)
                 .json(SuccessResponse);
     } catch (error) {
-        console.log("error in createRating", error);
         ErrorResponse.error = error;
         ErrorResponse.message = ErrorResponse.message || 'Error occurred while creating rating and review';
         return res
@@ -130,7 +127,6 @@ const getAllRating = async(req, res) => {
                 .status(StatusCodes.OK)
                 .json(SuccessResponse);
     } catch (error) {
-        console.log('error in getAllRating', error);
         ErrorResponse.error = error;
         ErrorResponse.message = ErrorResponse.message || 'Error occurred while fetching all reviews';
         return res

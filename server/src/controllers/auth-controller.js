@@ -126,7 +126,6 @@ const signUp = async (req,res) => {
                 .json(SuccessResponse);
     
     } catch (error) {
-        console.log("error in signUp:", error);
         ErrorResponse.error = error;
         ErrorResponse.message = ErrorResponse.message || 'User cannot be registered. Please try again.';
         return res
@@ -236,10 +235,8 @@ const changePassword = async (req, res) => {
                 `Password updated successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`
               )
             )
-            console.log("Email sent successfully:", emailResponse.response)
           } catch (error) {
             // If there's an error sending the email, log the error and return a 500 (Internal Server Error) error
-            console.error("Error occurred while sending email:", error)
             ErrorResponse.error = error;
             ErrorResponse.message = ErrorResponse.message || 'Error occurred while sending email. Please try again.';
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
@@ -251,7 +248,6 @@ const changePassword = async (req, res) => {
                 .status(StatusCodes.OK)
                 .json(SuccessResponse);
     } catch (error) {
-        console.log('error in changePassword:', error);
         ErrorResponse.error = error;
         ErrorResponse.message = ErrorResponse.message || 'Error occurred while updating password';
         return res

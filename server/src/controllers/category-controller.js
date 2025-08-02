@@ -18,14 +18,12 @@ const createCategory = async (req, res) => {
         }
         //create entry in DB
         const categoryDetails = await Category.create({name, description});
-        console.log(categoryDetails);
         //return res
         SuccessResponse.message = 'Category is created successfully';
         return res
                 .status(StatusCodes.CREATED)
                 .json(SuccessResponse);
     } catch (error) {
-        console.log(error);
         ErrorResponse.error = error;
         ErrorResponse.message = 'Error occurred while creating category';
         return res
@@ -63,10 +61,16 @@ const categoryPageDetails = async(req, res) => {
                                                 .populate({
                                                     path: "course",
                                                     match: { status: "Published" },
-                                                    populate: "ratingAndReviews",
-                                                    populate: "instructor",
+                                                    populate:  [
+                                                                {
+                                                                    path: "ratingAndReviews",
+                                                                },
+                                                                {
+                                                                    path: "instructor",
+                                                                },
+                                                                ],
                                                 }) 
-                                                .exec()
+                                                .exec()                                       
         //validation
         if(!selectedCategory) {
             ErrorResponse.message = 'Category not found';
@@ -94,18 +98,31 @@ const categoryPageDetails = async(req, res) => {
                                                 .populate({
                                                     path: "course",
                                                     match: { status: "Published" },
-                                                })
+                                                    populate:  [
+                                                                {
+                                                                    path: "ratingAndReviews",
+                                                                },
+                                                                {
+                                                                    path: "instructor",
+                                                                },
+                                                                ],
+                                                }) 
                                                 .exec()
         }
         // get top selling courses
         const allCategories = await Category.find()
                                             .populate({
-                                                path: "course",
-                                                match: { status: "Published" },
-                                                populate: {
-                                                    path: "instructor",
-                                                },
-                                            })
+                                                    path: "course",
+                                                    match: { status: "Published" },
+                                                    populate:  [
+                                                                {
+                                                                    path: "ratingAndReviews",
+                                                                },
+                                                                {
+                                                                    path: "instructor",
+                                                                },
+                                                                ],
+                                                }) 
                                             .exec()
         const allCourses = allCategories.flatMap((category) => category.course)
         const mostSellingCourses = allCourses
