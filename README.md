@@ -1,4 +1,4 @@
-# Edventure: An Ed-Tech Platform
+# [Edventure: An Ed-Tech Platform](https://edventure-client.vercel.app/)
 
 Edventure is a full-featured ed-tech platform that enables users to **create, consume, and rate educational content**. The platform is built using the **MERN stack** (MongoDB, ExpressJS, ReactJS, NodeJS) and aims to make learning **engaging, accessible, and interactive** for students while providing instructors with powerful tools to connect and share their expertise.
 
