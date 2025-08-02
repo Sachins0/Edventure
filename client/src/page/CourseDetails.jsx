@@ -9,7 +9,7 @@ import { HiOutlineGlobeAlt } from 'react-icons/hi'
 import ReactMarkdown from 'react-markdown';
 import CourseDetailsCard from '../components/core/course/courseDetailsCard'
 import Footer from '../components/common/Footer'
-import RatingStars from "../components/common/RatingStars"
+import RatingStars from "../components/common/ratingStars"
 import Error from './Error'
 import { buyCourse } from '../services/operations/studentFeaturesAPI'
 import CourseAccordionBar from '../components/core/course/CourseAccordionBar'

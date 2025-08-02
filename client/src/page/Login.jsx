@@ -1,7 +1,7 @@
 import React from "react"
 
 import loginImg from "../assets/Images/login.png"
-import Template from "../components/core/Auth/Template"
+import Template from "../components/core/auth/Template"
 
 function Login() {
   return (

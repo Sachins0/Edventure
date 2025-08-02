@@ -1,7 +1,7 @@
 import React from "react"
 
 import signupImg from "../assets/Images/signup.png"
-import Template from "../components/core/Auth/Template"
+import Template from "../components/core/auth/Template"
 
 function Signup() {
   return (
