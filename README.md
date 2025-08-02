@@ -37,10 +37,10 @@ Edventure is a full-featured ed-tech platform that enables users to **create, co
 
 ## 👷🏻‍♀️ Architecture Diagram
 - Here is a high-level diagram that illustrates the architecture of the Edventure ed-tech platform:
-  ![alt text](client\src\assets\Images\hld.png)
+  ![alt text](client/src/assets/Images/hld.png)
 
 ## 🗐 [Data Models and Database Schema](https://app.eraser.io/workspace/1s64UdKJwi9Zr4Kxx9oN?origin=share):
-  ![alt text](client\src\assets\Images\model.png)
+  ![alt text](client/src/assets/Images/model.png)
 
 
 
