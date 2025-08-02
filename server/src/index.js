@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		origin:"https://edventure-sage.vercel.app/",
+		origin:"https://edventure-client-git-master-sachins0s-projects.vercel.app/",
 		credentials:true,
 	})
 )
