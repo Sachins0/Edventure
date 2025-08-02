@@ -7,7 +7,7 @@ import { formattedDate } from '../utils/dateFormatter'
 import { BiInfoCircle } from 'react-icons/bi'
 import { HiOutlineGlobeAlt } from 'react-icons/hi'
 import ReactMarkdown from 'react-markdown';
-import CourseDetailsCard from '../components/core/course/courseDetailsCard'
+import CourseDetailsCard from '../components/core/course/CourseDetailsCard'
 import Footer from '../components/common/Footer'
 import RatingStars from "../components/common/ratingStars"
 import Error from './Error'
